@@ -1,2 +1,2 @@
 # PythonSorting
-Sorting algorithm test in Python.
+Sorting algorithms in Python.
