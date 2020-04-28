@@ -19,6 +19,27 @@ def scrambleArray(array):
 def swapElements(array, index1, index2):
     array[index1], array[index2] = array[index2], array[index1]
 
+def bogoSort(array):
+    comparisons = 0
+    swaps = 0
+    isArraySorted = True
+    for index in range(1, len(array)):
+        comparisons += 1
+        if (array[index-1] > array[index]):
+            isArraySorted = False
+    while isArraySorted == False:
+        isArraySorted = True
+        for index in range(0, len(array)):
+            swapElements(array, index, random.randrange(1, len(array)))
+            swaps += 1
+        for index in range(1, len(array)):
+            comparisons += 1
+            if (array[index-1] > array[index]):
+                isArraySorted = False
+
+    printElements(array)
+    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
+
 def bubbleSort(array):
     comparisons = 0
     swaps = 0
@@ -63,6 +84,6 @@ scrambleArray(numList)
 printElements(numList)
 print("Sorting array...\n")
 start = timer()
-insertionSort(numList)
+bogoSort(numList)
 end = timer()
 print("Elapsed Time: " + str(end-start))
