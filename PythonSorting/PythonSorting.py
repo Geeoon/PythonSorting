@@ -1,14 +1,15 @@
 #This syntax is killing me
 
 import random
+from timeit import default_timer as timer
 
 def printElements(array):
     for index in array:
         print(index , end =" ")
 
-def scrambleArray(array):
+def scrambleArray(array, ran):
     for index in range(0, len(array)):
-        array[index] = random.randrange(1, 101)
+        array[index] = random.randrange(1, ran)
 
 def swapElements(array, index1, index2):
     array[index1], array[index2] = array[index2], array[index1]
@@ -40,13 +41,17 @@ def insertionSort(array):
             swaps += 1
             j -= 1
     printElements(array)
-    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
+    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
 
-numList = [None] * 100
+size = int(input("Size of array: "))
+numList = [None] * size
+rang = int(input("Range of numbers: "))
 
-scrambleArray(numList)
+scrambleArray(numList, rang)
 printElements(numList)
 
 print("\nSorting array...\n")
-
+start = timer()
 insertionSort(numList)
+end = timer()
+print("Elapsed Time: " + str(end-start))
