@@ -3,6 +3,13 @@
 import random
 from timeit import default_timer as timer
 
+def getSize():
+    size = int(input("Size of array: "))
+    while (size <= 1):
+        print("The array must have a size greater than 1")
+        size = int(input("Size of array: "))
+    return size
+
 def printElements(array):
     for index in array:
         print(index , end =" ")
@@ -14,7 +21,7 @@ def populateArray(array):
 
 def scrambleArray(array):
     for index in range(0, len(array)):
-        swapElements(array, index, random.randrange(1, len(array)))
+        swapElements(array, index, random.randrange(0, len(array)))
 
 def swapElements(array, index1, index2):
     array[index1], array[index2] = array[index2], array[index1]
@@ -30,7 +37,7 @@ def bogoSort(array):
     while isArraySorted == False:
         isArraySorted = True
         for index in range(0, len(array)):
-            swapElements(array, index, random.randrange(1, len(array)))
+            swapElements(array, index, random.randrange(0, len(array)))
             swaps += 1
         for index in range(1, len(array)):
             comparisons += 1
@@ -76,9 +83,8 @@ def mergeSort(array):
 def merge(array1, array2):
     return
 
-size = int(input("Size of array: "))
+size = getSize()
 numList = [None] * size
-
 populateArray(numList)
 scrambleArray(numList)
 printElements(numList)
@@ -86,4 +92,4 @@ print("Sorting array...\n")
 start = timer()
 bogoSort(numList)
 end = timer()
-print("Elapsed Time: " + str(end-start))
+print("Elapsed Time: " + str(end-start) + " seconds")
