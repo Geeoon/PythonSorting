@@ -6,10 +6,15 @@ from timeit import default_timer as timer
 def printElements(array):
     for index in array:
         print(index , end =" ")
+    print()
 
-def scrambleArray(array, ran):
+def populateArray(array):
     for index in range(0, len(array)):
-        array[index] = random.randrange(1, ran)
+        array[index] = index+1
+
+def scrambleArray(array):
+    for index in range(0, len(array)):
+        swapElements(array, index, random.randrange(1, len(array)))
 
 def swapElements(array, index1, index2):
     array[index1], array[index2] = array[index2], array[index1]
@@ -41,16 +46,22 @@ def insertionSort(array):
             swaps += 1
             j -= 1
     printElements(array)
-    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
+    print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
+
+def mergeSort(array):
+    comparisons = 0
+    swaps = 0
+    
+def merge(array1, array2):
+    return
 
 size = int(input("Size of array: "))
 numList = [None] * size
-rang = int(input("Range of numbers: "))
 
-scrambleArray(numList, rang)
+populateArray(numList)
+scrambleArray(numList)
 printElements(numList)
-
-print("\nSorting array...\n")
+print("Sorting array...\n")
 start = timer()
 insertionSort(numList)
 end = timer()
