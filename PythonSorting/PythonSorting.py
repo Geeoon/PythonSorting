@@ -76,17 +76,15 @@ def insertionSort(list):
 	print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
 
 def mergeSort(list):
-	mergeDivide(list)
+	printElements(mergeDivide(list))
 
 def mergeDivide(list):
 	end = math.ceil(len(list) / 2)
 	list1 = list[0:end]
-	list2 = list[end+1:len(list)]
-
+	list2 = list[end:len(list)]
 	if (len(list1) > 1 or len(list2) > 1):
-		mergeConquer(mergeDivide(list1), mergeDivide(list2))
+		return mergeConquer(mergeDivide(list1), mergeDivide(list2))
 	else:
-		print("bruh")
 		return mergeConquer(list1, list2)
 
 
@@ -101,12 +99,10 @@ def mergeConquer(list1, list2):
 			for i in range(i, size):
 				listF[i] = list2[pos2]
 				pos2 += 1
-			return listF
 		elif (pos2 >= len(list2)):
 			for i in range(i, size):
 				listF[i] = list1[pos1]
 				pos1 += 1
-			return listF
 		elif (list1[pos1] > list2[pos2]): 
 			listF[i] = list2[pos2]
 			pos2 += 1
