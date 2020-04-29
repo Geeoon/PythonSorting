@@ -1,95 +1,137 @@
 #This syntax is killing me
 
 import random
+import math
+
 from timeit import default_timer as timer
+comparisons = 0
+swaps = 0
 
 def getSize():
-    size = int(input("Size of array: "))
-    while (size <= 1):
-        print("The array must have a size greater than 1")
-        size = int(input("Size of array: "))
-    return size
+	size = int(input("Size of list: "))
+	while (size <= 1):
+		print("The list must have a size greater than 1")
+		size = int(input("Size of list: "))
+	return size
 
-def printElements(array):
-    for index in array:
-        print(index , end =" ")
-    print()
+def printElements(list):
+	for index in list:
+		print(index , end =" ")
+	print()
 
-def populateArray(array):
-    for index in range(0, len(array)):
-        array[index] = index+1
+def populatelist(list):
+	for index in range(0, len(list)):
+		list[index] = index+1
 
-def scrambleArray(array):
-    for index in range(0, len(array)):
-        swapElements(array, index, random.randrange(0, len(array)))
+def scramblelist(list):
+	for index in range(0, len(list)):
+		swapElements(list, index, random.randrange(0, len(list)))
 
-def swapElements(array, index1, index2):
-    array[index1], array[index2] = array[index2], array[index1]
+def swapElements(list, index1, index2):
+	list[index1], list[index2] = list[index2], list[index1]
 
-def bogoSort(array):
-    comparisons = 0
-    swaps = 0
-    isArraySorted = True
-    for index in range(1, len(array)):
-        comparisons += 1
-        if (array[index-1] > array[index]):
-            isArraySorted = False
-    while isArraySorted == False:
-        isArraySorted = True
-        for index in range(0, len(array)):
-            swapElements(array, index, random.randrange(0, len(array)))
-            swaps += 1
-        for index in range(1, len(array)):
-            comparisons += 1
-            if (array[index-1] > array[index]):
-                isArraySorted = False
+def bogoSort(list):
+	islistSorted = True
+	for index in range(1, len(list)):
+		comparisons += 1
+		if (list[index-1] > list[index]):
+			islistSorted = False
+			return
+	while islistSorted == False:
+		islistSorted = True
+		for index in range(0, len(list)):
+			swapElements(list, index, random.randrange(0, len(list)))
+			swaps += 1
+		for index in range(1, len(list)):
+			comparisons += 1
+			if (list[index-1] > list[index]):
+				islistSorted = False
 
-    printElements(array)
-    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
+	printElements(list)
+	print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
 
-def bubbleSort(array):
-    comparisons = 0
-    swaps = 0
-    isArraySorted = False
-    while isArraySorted == False:
-        isArraySorted = True
-        for index in range(1, len(array)):
-            comparisons += 1
-            if (array[index-1] > array[index]):
-                swaps += 1
-                isArraySorted = False
-                swapElements(array, index-1, index)
-    printElements(array)
-    print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
+def bubbleSort(list):
+	islistSorted = False
+	while islistSorted == False:
+		islistSorted = True
+		for index in range(1, len(list)):
+			comparisons += 1
+			if (list[index-1] > list[index]):
+				swaps += 1
+				islistSorted = False
+				swapElements(list, index-1, index)
+	printElements(list)
+	print("\nComparisons: " + str(comparisons) + "\nSwaps: " + str(swaps) + "\n")
 
-def insertionSort(array):
-    comparisons = 0
-    swaps = 0
-    for i in range(1, len(array)):
-        j = i
-        comparisons += 1
-        while (j > 0) and (array[j-1] > array[j]):
-            comparisons += 1
-            swapElements(array, j-1, j)
-            swaps += 1
-            j -= 1
-    printElements(array)
-    print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
+def insertionSort(list):
+	for i in range(1, len(list)):
+		j = i
+		comparisons += 1
+		while (j > 0) and (list[j-1] > list[j]):
+			comparisons += 1
+			swapElements(list, j-1, j)
+			swaps += 1
+			j -= 1
+	printElements(list)
+	print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
 
-def mergeSort(array):
-    comparisons = 0
-    swaps = 0
-    
-def merge(array1, array2):
-    return
+def mergeSort(list):
+	mergeDivide(list)
+
+def mergeDivide(list):
+	end = math.ceil(len(list) / 2)
+	list1 = list[0:end]
+	list2 = list[end+1:len(list)]
+
+	if (len(list1) > 1 or len(list2) > 1):
+		mergeConquer(mergeDivide(list1), mergeDivide(list2))
+	else:
+		print("bruh")
+		return mergeConquer(list1, list2)
+
+
+def mergeConquer(list1, list2):
+	size = len(list1) + len(list2)
+	listF = [None] * size
+	pos1 = 0
+	pos2 = 0
+	i = 0
+	while (i < size):
+		if (pos1 >= len(list1)):
+			for i in range(i, size):
+				listF[i] = list2[pos2]
+				pos2 += 1
+			return listF
+		elif (pos2 >= len(list2)):
+			for i in range(i, size):
+				listF[i] = list1[pos1]
+				pos1 += 1
+			return listF
+		elif (list1[pos1] > list2[pos2]): 
+			listF[i] = list2[pos2]
+			pos2 += 1
+		elif (list1[pos1] < list2[pos2]):
+			listF[i] = list1[pos1]
+			pos1 += 1
+		else:
+			listF[i] = list1[pos1]
+			i += 1
+			listF[i] = list2[pos2]
+			pos1 += 1
+			pos2 += 1
+		i += 1
+	return listF
+
 
 size = getSize()
 numList = [None] * size
-populateArray(numList)
-scrambleArray(numList)
+populatelist(numList)
+scramblelist(numList)
 printElements(numList)
-print("Sorting array...\n")
+print("Sorting list...\n")
+list1 = [1]
+list2 = [2]
 start = timer()
-bogoSort(numList)
+mergeSort(numList)
 end = timer()
 print("Elapsed Time: " + str(end-start) + " seconds")
