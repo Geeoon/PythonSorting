@@ -1,6 +1,6 @@
 # PythonSorting
 Sorting algorithms in Python.
-* Merge Sort
+* Mergesort
   * O(nlog(n))
 * Insertion Sort
   * O(n^2)
