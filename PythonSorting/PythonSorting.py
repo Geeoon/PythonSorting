@@ -26,11 +26,12 @@ def scramblelist(list):
 		swapElements(list, index, random.randint(0, len(list) - 1))
 
 def swapElements(list, index1, index2):
+	global swaps
 	list[index1], list[index2] = list[index2], list[index1]
+	swaps += 1
 
 def bogoSort(list):
 	global comparisons
-	global swaps
 	islistSorted = True
 	for index in range(1, len(list)):
 		comparisons += 1
@@ -41,7 +42,6 @@ def bogoSort(list):
 		islistSorted = True
 		for index in range(0, len(list)):
 			swapElements(list, index, random.randrange(0, len(list)))
-			swaps += 1
 		for index in range(1, len(list)):
 			comparisons += 1
 			if (list[index-1] > list[index]):
@@ -52,14 +52,12 @@ def bogoSort(list):
 
 def bubbleSort(list):
 	global comparisons
-	global swaps
 	islistSorted = False
 	while islistSorted == False:
 		islistSorted = True
 		for index in range(1, len(list)):
 			comparisons += 1
 			if (list[index-1] > list[index]):
-				swaps += 1
 				islistSorted = False
 				swapElements(list, index-1, index)
 	printElements(list)
@@ -67,20 +65,17 @@ def bubbleSort(list):
 
 def insertionSort(list):
 	global comparisons
-	global swaps
 	for i in range(1, len(list)):
 		j = i
 		comparisons += 1
 		while (j > 0) and (list[j-1] > list[j]):
 			comparisons += 1
 			swapElements(list, j-1, j)
-			swaps += 1
 			j -= 1
-	printElements(list)
-	print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
 
 def mergeSort(list):
-	printElements(mergeDivide(list))
+	list = mergeDivide(list)
+	printElements(list)
 
 def mergeDivide(list):
 	end = math.ceil(len(list) / 2)
@@ -93,6 +88,7 @@ def mergeDivide(list):
 
 
 def mergeConquer(list1, list2):
+	global comparisons
 	listF = list1 + list2
 	size = len(listF)
 	pos1 = 0
@@ -108,9 +104,11 @@ def mergeConquer(list1, list2):
 				listF[i] = list1[pos1]
 				pos1 += 1
 		elif (list1[pos1] > list2[pos2]): 
+			comparisons += 1
 			listF[i] = list2[pos2]
 			pos2 += 1
 		elif (list1[pos1] < list2[pos2]):
+			comparisons += 1
 			listF[i] = list1[pos1]
 			pos1 += 1
 		else:
@@ -123,16 +121,17 @@ def mergeConquer(list1, list2):
 	return listF
 
 def quickSort(list):
-	print(quickDivide(list))
+	list = quickDivide(list)
+	printElements(list)
 
 def quickDivide(list):
 	pvt = quickPivot(list)
 	list1 = list[0:pvt-1]
 	list2 = list[pvt+1:list[len(list) - 1]]
-	if (len(list) > 1):
-		quickConquer(quickDivide(list1), quickDivide(list2), pvt)
+	if (len(list) > 2):
+		return quickConquer(quickDivide(list1), quickDivide(list2), list[pvt])
 	else:
-		return quickConquer(list1, list2, pvt)
+		return quickConquer(list1, list2, list[pvt])
 
 def quickConquer(list1, list2, pvt):
 	listF = list1 + [pvt] + list2
@@ -140,15 +139,13 @@ def quickConquer(list1, list2, pvt):
 
 def quickPivot(list):
 	middle = math.floor(len(list) / 2)
-	#sorts array without creating a new array
-	if (list[0] > list[-1]): 
-		swapElements(list, 0, len(list) - 1)
-	if (list[0] > list[middle]):
-		swapElements(list, 0, middle)
-	if (list[middle] > list[-1]):
-		swapElements(list, middle, len(list) - 1)
-
-	print(middle)
+	pvtList = [list[0], list[middle], list[-1]]
+	insertionSort(pvtList)
+	list[0] = pvtList[0]
+	list[middle] = pvtList[middle]
+	list[-1] = pvtList[-1]
+	print(pvtList)
+	print("asdfasdfasdf")
 	printElements(list)
 	return middle
 size = getSize()
@@ -158,9 +155,11 @@ populatelist(numList)
 scramblelist(numList)
 printElements(numList)
 print("Sorting list...\n")
-list1 = [1]
-list2 = [2]
+listt = [1, 2, 3, 4, 5, 6, 7, 8]
+list1 = [7, 3, 5, 1, 2]
+list2 = [14, 15, 16, 17]
 start = timer()
-quickSort(numList)
+mergeSort(numList)
 end = timer()
+print("Comparisons: " + str(comparisons) + "\nSwaps: " + str(swaps))
 print("Elapsed Time: " + str(end-start) + " seconds (includes time to print)")
